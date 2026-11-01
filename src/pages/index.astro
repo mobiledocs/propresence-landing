@@ -1,16 +1,1783 @@
 ---
+const CHECKOUT_URL = "https://buy.stripe.com/REPLACE_ME";
+const WHATSAPP_URL = "https://wa.me/REPLACE_NUMBER";
+const MESSENGER_URL = "https://m.me/REPLACE_PAGE_USERNAME";
+
+const benefits = [
+  {
+    title: "One Professional Presence",
+    text: "Bring your experience, expertise, achievements, professional links and contact details together in one polished page."
+  },
+  {
+    title: "Easy to Share",
+    text: "Share one personal link instead of sending people across multiple profiles, documents and platforms."
+  },
+  {
+    title: "Direct Contact",
+    text: "Let people reach you directly through WhatsApp, phone, email and your professional links."
+  },
+  {
+    title: "Works Everywhere",
+    text: "Your profile is designed to look great on mobile, tablet and desktop."
+  },
+  {
+    title: "Your CV or Profile",
+    text: "Add your CV when relevant, make it downloadable, or use your page as a professional profile without one."
+  },
+  {
+    title: "Always Online",
+    text: "Hosting is included for one full year, with one content update included every month."
+  }
+];
+
+const audiences = [
+  "Business Owners",
+  "Consultants",
+  "Executives",
+  "Doctors",
+  "Dentists",
+  "Lawyers",
+  "Sales Professionals",
+  "Marketing Professionals",
+  "Freelancers",
+  "Coaches & Trainers"
+];
+
+const images = [
+  "/images/01-profile.png",
+  "/images/02-profile.png",
+  "/images/03-profile.png",
+  "/images/04-profile.png",
+  "/images/05-profile.png"
+];
 ---
 
+<!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1"
+    />
+
+    <title>ProPresence — Your Professional Presence in One Link</title>
+
+    <meta
+      name="description"
+      content="Turn your experience, expertise and professional identity into one polished personal profile. One link. Easy sharing. Direct contact. Hosting included."
+    />
+
+    <style>
+      :root {
+        --bg: #02090b;
+        --bg-soft: #061216;
+        --card: #09171b;
+        --card-2: #0b1d21;
+        --text: #f5fbfc;
+        --muted: #9db2b7;
+        --cyan: #23e8ef;
+        --cyan-soft: rgba(35, 232, 239, 0.16);
+        --green: #25d366;
+        --line: rgba(255, 255, 255, 0.1);
+        --max: 1180px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family:
+          Inter,
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
+
+        color: var(--text);
+
+        background:
+          radial-gradient(
+            circle at 75% 10%,
+            rgba(21, 220, 226, 0.14),
+            transparent 30%
+          ),
+          radial-gradient(
+            circle at 10% 40%,
+            rgba(21, 220, 226, 0.07),
+            transparent 25%
+          ),
+          var(--bg);
+
+        line-height: 1.6;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+
+      .container {
+        width: min(calc(100% - 36px), var(--max));
+        margin-inline: auto;
+      }
+
+      /* HEADER */
+
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+
+        background: rgba(2, 9, 11, 0.88);
+        backdrop-filter: blur(18px);
+
+        border-bottom: 1px solid var(--line);
+      }
+
+      .nav {
+        min-height: 76px;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+      }
+
+      .brand {
+        font-size: 1.55rem;
+        font-weight: 900;
+        letter-spacing: -0.04em;
+      }
+
+      .brand span {
+        color: var(--cyan);
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 28px;
+
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      .nav-cta {
+        padding: 11px 20px;
+
+        border-radius: 999px;
+
+        background: var(--green);
+        color: white;
+
+        font-weight: 800;
+      }
+
+      /* HERO */
+
+      .hero {
+        padding: 78px 0 72px;
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 0.92fr 1.08fr;
+        gap: 64px;
+        align-items: center;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+
+        padding: 8px 13px;
+        margin-bottom: 22px;
+
+        border: 1px solid rgba(35, 232, 239, 0.35);
+        border-radius: 999px;
+
+        background: var(--cyan-soft);
+
+        color: var(--cyan);
+
+        font-weight: 800;
+        font-size: 0.78rem;
+
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 0 0 22px;
+
+        max-width: 720px;
+
+        font-size: clamp(3rem, 6vw, 5.6rem);
+        line-height: 0.98;
+        letter-spacing: -0.065em;
+      }
+
+      h1 span {
+        color: var(--cyan);
+      }
+
+      .hero-copy {
+        max-width: 650px;
+
+        margin: 0 0 30px;
+
+        color: #c0d0d4;
+
+        font-size: clamp(1.05rem, 2vw, 1.24rem);
+      }
+
+      .hero-copy strong {
+        color: white;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+
+        margin-bottom: 24px;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+
+        min-height: 54px;
+        padding: 0 24px;
+
+        border-radius: 13px;
+
+        font-weight: 850;
+
+        transition:
+          transform 0.18s ease,
+          opacity 0.18s ease;
+      }
+
+      .button:hover {
+        transform: translateY(-2px);
+      }
+
+      .button-primary {
+        background: var(--green);
+        color: white;
+
+        box-shadow: 0 15px 45px rgba(37, 211, 102, 0.2);
+      }
+
+      .button-secondary {
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.04);
+      }
+
+      .hero-note {
+        color: #879da2;
+        font-size: 0.9rem;
+      }
+
+      .hero-note strong {
+        color: #d9e7e9;
+      }
+
+      .image-frame {
+        overflow: hidden;
+
+        aspect-ratio: 1 / 1;
+
+        border: 1px solid rgba(35, 232, 239, 0.22);
+        border-radius: 28px;
+
+        background: #041013;
+
+        box-shadow:
+          0 32px 100px rgba(0, 0, 0, 0.55),
+          0 0 65px rgba(35, 232, 239, 0.08);
+      }
+
+      .image-frame img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+
+      /* TRUST STRIP */
+
+      .trust-strip {
+        padding: 22px 0;
+
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+
+        background: rgba(255, 255, 255, 0.018);
+      }
+
+      .trust-items {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 18px;
+      }
+
+      .trust-item {
+        text-align: center;
+      }
+
+      .trust-item strong {
+        display: block;
+        color: white;
+        font-size: 1rem;
+      }
+
+      .trust-item span {
+        color: var(--muted);
+        font-size: 0.84rem;
+      }
+
+      /* SHARED SECTIONS */
+
+      section {
+        padding: 64px 0;
+      }
+
+      .section-heading {
+  max-width: 790px;
+  margin: 0 auto 34px;
+  text-align: center;
+}
+
+      .section-heading .label {
+        color: var(--cyan);
+
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+
+        font-size: 0.76rem;
+      }
+
+      h2 {
+        margin: 10px 0 14px;
+
+        font-size: clamp(2.2rem, 4.8vw, 4rem);
+        line-height: 1.03;
+        letter-spacing: -0.05em;
+      }
+
+      .section-heading p {
+        color: var(--muted);
+
+        margin: 0 auto;
+
+        max-width: 680px;
+
+        font-size: 1.05rem;
+      }
+
+      /* AUDIENCE */
+
+      .audience-tags {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+      }
+
+      .audience-section {
+  padding-bottom: 48px;
+}
+
+#benefits {
+  padding-top: 48px;
+}
+
+#benefits,
+#examples,
+#how,
+#pricing {
+  scroll-margin-top: 130px;
+}
+
+      .audience-tag {
+        padding: 12px 17px;
+
+        border: 1px solid var(--line);
+        border-radius: 999px;
+
+        color: #d8e4e6;
+
+        background: rgba(255, 255, 255, 0.025);
+      }
+
+      /* BENEFITS */
+
+      .benefits {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+      }
+
+      .benefit {
+        padding: 28px;
+
+        border: 1px solid var(--line);
+        border-radius: 20px;
+
+        background:
+          linear-gradient(
+            160deg,
+            rgba(35, 232, 239, 0.045),
+            transparent 45%
+          ),
+          var(--card);
+      }
+
+      .benefit-icon {
+        width: 42px;
+        height: 42px;
+
+        display: grid;
+        place-items: center;
+
+        margin-bottom: 19px;
+
+        border-radius: 11px;
+
+        background: var(--cyan-soft);
+        color: var(--cyan);
+
+        font-size: 1.2rem;
+      }
+
+      .benefit h3 {
+        margin: 0 0 8px;
+
+        font-size: 1.15rem;
+      }
+
+      .benefit p {
+        margin: 0;
+
+        color: var(--muted);
+
+        font-size: 0.94rem;
+      }
+
+      /* GALLERY */
+
+      .gallery {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 22px;
+      }
+
+      .gallery-card {
+        overflow: hidden;
+
+        aspect-ratio: 1 / 1;
+
+        border: 1px solid var(--line);
+        border-radius: 24px;
+
+        background: var(--card);
+
+        box-shadow: 0 20px 55px rgba(0, 0, 0, 0.28);
+      }
+
+      .gallery-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+
+
+      /* HOW IT WORKS */
+
+      .steps {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 18px;
+      }
+
+      .step {
+        padding: 27px;
+
+        border-top: 2px solid var(--cyan);
+        border-radius: 16px;
+
+        background: var(--card);
+      }
+
+      .step-number {
+        color: var(--cyan);
+
+        font-size: 0.8rem;
+        font-weight: 900;
+
+        letter-spacing: 0.12em;
+      }
+
+      .step h3 {
+        margin: 10px 0 8px;
+
+        font-size: 1.12rem;
+      }
+
+      .step p {
+        margin: 0;
+
+        color: var(--muted);
+
+        font-size: 0.92rem;
+      }
+
+      /* PRICING */
+
+      .pricing-wrap {
+        max-width: 720px;
+        margin: 0 auto;
+      }
+
+      .pricing-card {
+        position: relative;
+        overflow: hidden;
+
+        padding: 42px;
+
+        border: 1px solid rgba(35, 232, 239, 0.35);
+        border-radius: 28px;
+
+        background:
+          radial-gradient(
+            circle at top right,
+            rgba(35, 232, 239, 0.12),
+            transparent 35%
+          ),
+          var(--card);
+
+        box-shadow:
+          0 35px 110px rgba(0, 0, 0, 0.45),
+          0 0 60px rgba(35, 232, 239, 0.07);
+      }
+
+      .pricing-badge {
+        display: inline-block;
+
+        margin-bottom: 18px;
+        padding: 7px 11px;
+
+        border-radius: 999px;
+
+        background: var(--cyan-soft);
+        color: var(--cyan);
+
+        font-size: 0.75rem;
+        font-weight: 900;
+
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .price {
+        margin: 0;
+
+        font-size: clamp(4rem, 9vw, 6.6rem);
+        line-height: 0.9;
+
+        font-weight: 900;
+        letter-spacing: -0.07em;
+      }
+
+      .price span {
+        color: var(--muted);
+
+        font-size: 1rem;
+        font-weight: 500;
+
+        letter-spacing: 0;
+      }
+
+      .price-description {
+        margin: 18px 0 28px;
+
+        color: var(--muted);
+      }
+
+      .includes {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 11px 24px;
+
+        margin: 0 0 32px;
+        padding: 0;
+
+        list-style: none;
+      }
+
+      .includes li {
+        position: relative;
+
+        padding-left: 25px;
+
+        color: #d8e5e7;
+
+        font-size: 0.94rem;
+      }
+
+      .includes li::before {
+        content: "✓";
+
+        position: absolute;
+        left: 0;
+
+        color: var(--green);
+
+        font-weight: 900;
+      }
+
+      .checkout-button {
+        width: 100%;
+
+        min-height: 60px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 14px;
+
+        background: var(--green);
+
+        color: white;
+
+        font-size: 1.05rem;
+        font-weight: 900;
+
+        box-shadow: 0 18px 50px rgba(37, 211, 102, 0.2);
+      }
+
+      .payment-note {
+        margin-top: 13px;
+
+        text-align: center;
+
+        color: #81979c;
+
+        font-size: 0.82rem;
+      }
+
+      /* AFTER PAYMENT */
+
+      .after-payment {
+        max-width: 850px;
+        margin: 0 auto;
+
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+      }
+
+      .after-card {
+        padding: 25px;
+
+        text-align: center;
+
+        border: 1px solid var(--line);
+        border-radius: 18px;
+
+        background: var(--card);
+      }
+
+      .after-number {
+        width: 38px;
+        height: 38px;
+
+        display: grid;
+        place-items: center;
+
+        margin: 0 auto 14px;
+
+        border-radius: 50%;
+
+        background: var(--cyan-soft);
+        color: var(--cyan);
+
+        font-weight: 900;
+      }
+
+      .after-card h3 {
+        margin: 0 0 7px;
+      }
+
+      .after-card p {
+        margin: 0;
+
+        color: var(--muted);
+
+        font-size: 0.9rem;
+      }
+
+      /* FAQ */
+
+      .faq {
+        max-width: 820px;
+        margin: 0 auto;
+      }
+
+      details {
+        padding: 21px 0;
+
+        border-bottom: 1px solid var(--line);
+      }
+
+      summary {
+        cursor: pointer;
+
+        font-size: 1.03rem;
+        font-weight: 750;
+      }
+
+      details p {
+        margin: 12px 0 0;
+
+        color: var(--muted);
+      }
+
+      /* SUPPORT */
+
+      .support-box {
+        max-width: 880px;
+        margin: 0 auto;
+
+        padding: 40px;
+
+        text-align: center;
+
+        border: 1px solid var(--line);
+        border-radius: 24px;
+
+        background: var(--card);
+      }
+
+      .support-actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+
+        margin-top: 22px;
+      }
+
+      /* FOOTER */
+
+      footer {
+        padding: 38px 0;
+
+        border-top: 1px solid var(--line);
+
+        color: #73898e;
+
+        font-size: 0.86rem;
+      }
+
+      .footer-grid {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 24px;
+      }
+
+      /* TABLET + MOBILE */
+
+@media (max-width: 900px) {
+  .nav {
+    min-height: auto;
+    padding: 10px 0 9px;
+
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: auto auto;
+    gap: 8px 12px;
+  }
+
+  .brand {
+    grid-column: 1;
+    grid-row: 1;
+
+    align-self: center;
+
+    min-width: 0;
+  }
+
+  .nav-cta {
+    grid-column: 2;
+    grid-row: 1;
+
+    align-self: center;
+
+    white-space: nowrap;
+  }
+
+  .nav-links {
+    grid-column: 1 / -1;
+    grid-row: 2;
+
+    display: flex;
+    align-items: center;
+
+    min-width: 0;
+    width: 100%;
+
+    gap: 8px;
+
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+
+    padding: 2px 0 0;
+
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .nav-links::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nav-links a {
+    flex: 0 0 auto;
+
+    padding: 7px 12px;
+
+    border: 1px solid var(--line);
+    border-radius: 999px;
+
+    background: rgba(255, 255, 255, 0.035);
+
+    color: #c8d7da;
+
+    font-size: 0.82rem;
+    font-weight: 650;
+
+    white-space: nowrap;
+  }
+
+  .hero {
+    padding: 50px 0 48px;
+  }
+
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .hero-content {
+    text-align: center;
+  }
+
+  .hero-copy {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero-actions {
+    justify-content: center;
+  }
+
+  .trust-items {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .benefits {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .steps {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+
+/* PHONE */
+
+@media (max-width: 620px) {
+  html,
+  body {
+    overflow-x: clip;
+  }
+
+  .container {
+    width: calc(100% - 24px);
+  }
+
+  /* HEADER */
+
+  .nav {
+    padding: 9px 0 8px;
+    gap: 8px 10px;
+  }
+
+  .brand {
+    font-size: 1.18rem;
+  }
+
+  .nav-cta {
+    padding: 8px 12px;
+
+    font-size: 0.78rem;
+    line-height: 1.2;
+  }
+
+  .nav-links {
+    gap: 6px;
+  }
+
+  .nav-links a {
+    padding: 6px 10px;
+
+    font-size: 0.76rem;
+  }
+
+  /* HERO */
+
+  .hero {
+    padding: 36px 0 34px;
+  }
+
+  .hero-grid {
+    gap: 24px;
+  }
+
+  .eyebrow {
+    padding: 6px 10px;
+    margin-bottom: 16px;
+
+    font-size: 0.68rem;
+  }
+
+  h1 {
+    margin-bottom: 18px;
+
+    font-size: clamp(2.35rem, 12vw, 3.5rem);
+    line-height: 1;
+  }
+
+  .hero-copy {
+    margin-bottom: 22px;
+
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+
+  .hero-actions {
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+
+  .hero-actions .button {
+    width: 100%;
+
+    min-height: 50px;
+    padding: 0 18px;
+  }
+
+  .hero-note {
+    font-size: 0.82rem;
+  }
+
+  .image-frame {
+    border-radius: 18px;
+  }
+
+  /* TRUST */
+
+  .trust-strip {
+    padding: 17px 0;
+  }
+
+  .trust-items {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px 10px;
+  }
+
+  .trust-item strong {
+    font-size: 0.9rem;
+  }
+
+  .trust-item span {
+    font-size: 0.75rem;
+  }
+
+  /* GENERAL SECTIONS */
+
+  section {
+    padding: 38px 0;
+  }
+
+  .section-heading {
+    margin: 0 auto 24px;
+  }
+
+  .section-heading .label {
+    font-size: 0.68rem;
+  }
+
+  h2 {
+    margin: 8px 0 12px;
+
+    font-size: clamp(1.9rem, 9vw, 2.65rem);
+    line-height: 1.06;
+  }
+
+  .section-heading p {
+    font-size: 0.96rem;
+    line-height: 1.65;
+  }
+
+  /* AUDIENCE */
+
+  .audience-section {
+    padding-top: 34px;
+    padding-bottom: 28px;
+  }
+
+  .audience-tags {
+    gap: 8px;
+  }
+
+  .audience-tag {
+    padding: 8px 12px;
+
+    font-size: 0.84rem;
+  }
+
+  #benefits {
+    padding-top: 30px;
+  }
+
+  #benefits,
+  #examples,
+  #how,
+  #pricing {
+    scroll-margin-top: 125px;
+  }
+
+  /* BENEFITS */
+
+  .benefits {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .benefit {
+    padding: 20px;
+
+    border-radius: 16px;
+  }
+
+  .benefit-icon {
+    width: 38px;
+    height: 38px;
+
+    margin-bottom: 14px;
+
+    font-size: 1rem;
+  }
+
+  .benefit h3 {
+    margin-bottom: 6px;
+
+    font-size: 1.05rem;
+  }
+
+  .benefit p {
+    font-size: 0.9rem;
+  }
+
+  /* GALLERY */
+
+  .gallery {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .gallery-card {
+    border-radius: 18px;
+  }
+
+  /* HOW IT WORKS */
+
+  .steps {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .step {
+    padding: 20px;
+
+    border-radius: 14px;
+  }
+
+  /* PRICING */
+
+  .pricing-wrap {
+    width: 100%;
+  }
+
+  .pricing-card {
+    width: 100%;
+
+    padding: 22px 18px;
+
+    border-radius: 20px;
+  }
+
+  .pricing-badge {
+    margin-bottom: 14px;
+    padding: 6px 10px;
+
+    font-size: 0.68rem;
+  }
+
+  .price {
+    font-size: 3.8rem;
+    line-height: 0.95;
+  }
+
+  .price span {
+    font-size: 0.9rem;
+  }
+
+  .price-description {
+    margin: 14px 0 22px;
+
+    font-size: 0.95rem;
+  }
+
+  .includes {
+    grid-template-columns: 1fr;
+
+    gap: 10px;
+
+    margin-bottom: 24px;
+  }
+
+  .includes li {
+    padding-left: 24px;
+
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+
+  .checkout-button {
+    min-height: 56px;
+
+    padding: 13px 16px;
+
+    text-align: center;
+
+    font-size: 0.95rem;
+    line-height: 1.25;
+  }
+
+  .payment-note {
+    margin-top: 11px;
+
+    font-size: 0.75rem;
+    line-height: 1.5;
+  }
+
+  /* AFTER PAYMENT */
+
+  .after-payment {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .after-card {
+    padding: 20px;
+  }
+
+  /* FAQ */
+
+  details {
+    padding: 17px 0;
+  }
+
+  summary {
+    font-size: 0.96rem;
+  }
+
+  details p {
+    font-size: 0.9rem;
+  }
+
+  /* SUPPORT */
+
+  .support-box {
+    padding: 25px 18px;
+
+    border-radius: 18px;
+  }
+
+  .support-actions {
+    flex-direction: column;
+
+    gap: 10px;
+
+    margin-top: 18px;
+  }
+
+  .support-actions .button {
+    width: 100%;
+  }
+
+  /* FOOTER */
+
+  footer {
+    padding: 28px 0;
+  }
+
+  .footer-grid {
+    flex-direction: column;
+
+    gap: 8px;
+
+    text-align: center;
+  }
+}
+</style>
+  </head>
+
+  <body>
+    <header>
+      <div class="container nav">
+        <a class="brand" href="#">
+          Pro<span>Presence</span>
+        </a>
+
+        <nav class="nav-links">
+          <a href="#benefits">What You Get</a>
+          <a href="#examples">Examples</a>
+          <a href="#how">How It Works</a>
+          <a href="#pricing">Pricing</a>
+        </nav>
+
+        <a class="nav-cta" href="#pricing">
+          Get Your Profile
+        </a>
+      </div>
+    </header>
+
+    <main>
+      <!-- HERO -->
+
+      <section class="hero">
+        <div class="container hero-grid">
+          <div class="hero-content">
+            <div class="eyebrow">
+              Professional Presence • One Link
+            </div>
+
+            <h1>
+              Your experience deserves
+              <span> more than scattered profiles.</span>
+            </h1>
+
+            <p class="hero-copy">
+              Bring your experience, expertise, achievements,
+              professional links and contact details together in
+              <strong>one polished personal profile</strong>
+              designed to represent you professionally and make
+              it easier for new opportunities to find you.
+            </p>
+
+            <div class="hero-actions">
+              <a
+                class="button button-primary"
+                href="#pricing"
+              >
+                Create My Profile — $89/year
+              </a>
+
+              <a
+                class="button button-secondary"
+                href="#examples"
+              >
+                See Examples
+              </a>
+            </div>
+
+            <div class="hero-note">
+              One annual payment • Hosting included •
+              <strong>1 content update every month</strong>
+            </div>
+          </div>
+
+          <div class="image-frame">
+            <img
+              src={images[0]}
+              alt="ProPresence professional profile example"
+            />
+          </div>
+        </div>
+      </section>
+
+      <!-- TRUST STRIP -->
+
+      <div class="trust-strip">
+        <div class="container trust-items">
+          <div class="trust-item">
+            <strong>One Personal Link</strong>
+            <span>Everything in one place</span>
+          </div>
+
+          <div class="trust-item">
+            <strong>Works on Every Device</strong>
+            <span>Mobile, tablet and desktop</span>
+          </div>
+
+          <div class="trust-item">
+            <strong>Direct Contact</strong>
+            <span>WhatsApp, phone and email</span>
+          </div>
+
+          <div class="trust-item">
+            <strong>Hosted for One Year</strong>
+            <span>Ready whenever you need it</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- WHO IT IS FOR -->
+
+      <section class="audience-section">
+  <div class="container">
+    <div class="section-heading">
+      <div class="label">Built for professionals</div>
+
+            <h2>
+              Not just for job seekers.
+            </h2>
+
+            <p>
+              ProPresence is for professionals who want to present
+              their experience, expertise and identity more clearly —
+              whether the goal is clients, career opportunities,
+              networking or professional reputation.
+            </p>
+          </div>
+
+          <div class="audience-tags">
+            {
+              audiences.map((audience) => (
+                <div class="audience-tag">{audience}</div>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <!-- BENEFITS -->
+
+      <section id="benefits">
+        <div class="container">
+          <div class="section-heading">
+            <div class="label">Your professional presence</div>
+
+            <h2>
+              Everything about you, in one place.
+            </h2>
+
+            <p>
+              Stop sending people across multiple platforms.
+              Give them one professional page that clearly shows
+              who you are, what you do and how to reach you.
+            </p>
+          </div>
+
+          <div class="benefits">
+            {
+              benefits.map((benefit, index) => (
+                <article class="benefit">
+                  <div class="benefit-icon">
+                    {index + 1}
+                  </div>
+
+                  <h3>{benefit.title}</h3>
+
+                  <p>{benefit.text}</p>
+                </article>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <!-- EXAMPLES -->
+
+      <section id="examples">
+        <div class="container">
+          <div class="section-heading">
+            <div class="label">See the experience</div>
+
+            <h2>
+              Designed to represent you professionally.
+            </h2>
+
+            <p>
+              A clear, polished profile that looks professional,
+              communicates quickly and works across devices.
+            </p>
+          </div>
+
+          <div class="gallery">
+            {
+              images.slice(1).map((image, index) => (
+                <div class="gallery-card">
+                  <img
+                    src={image}
+                    alt={`ProPresence feature example ${index + 2}`}
+                    loading="lazy"
+                  />
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <!-- HOW IT WORKS -->
+
+      <section id="how">
+        <div class="container">
+          <div class="section-heading">
+            <div class="label">Simple process</div>
+
+            <h2>
+              From your information to your page.
+            </h2>
+
+            <p>
+              You do not need to build anything yourself.
+              Send us what you already have and we turn it into
+              your ProPresence profile.
+            </p>
+          </div>
+
+          <div class="steps">
+            <article class="step">
+              <div class="step-number">STEP 01</div>
+
+              <h3>Purchase your profile</h3>
+
+              <p>
+                Start with one simple annual payment.
+              </p>
+            </article>
+
+            <article class="step">
+              <div class="step-number">STEP 02</div>
+
+              <h3>Send your information</h3>
+
+              <p>
+                Upload your CV, LinkedIn profile, website,
+                professional bio or complete our short form.
+              </p>
+            </article>
+
+            <article class="step">
+              <div class="step-number">STEP 03</div>
+
+              <h3>We build your page</h3>
+
+              <p>
+                We organize your experience, achievements,
+                expertise and contact information professionally.
+              </p>
+            </article>
+
+            <article class="step">
+              <div class="step-number">STEP 04</div>
+
+              <h3>Review and publish</h3>
+
+              <p>
+                Review your profile, approve it and receive
+                your personal professional link.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- PRICING -->
+
+      <section id="pricing">
+        <div class="container">
+          <div class="section-heading">
+            <div class="label">Simple annual pricing</div>
+
+            <h2>
+              One professional presence.
+              One annual payment.
+            </h2>
+
+            <p>
+              No complicated packages and no monthly subscription.
+            </p>
+          </div>
+
+          <div class="pricing-wrap">
+            <div class="pricing-card">
+              <div class="pricing-badge">
+                ProPresence Annual
+              </div>
+
+              <div class="price">
+                $89
+                <span>/ year</span>
+              </div>
+
+              <p class="price-description">
+                Your professional profile, hosted and ready
+                to share for one full year.
+              </p>
+
+              <ul class="includes">
+                <li>Professional personal page</li>
+                <li>Personal profile link</li>
+                <li>Experience & achievements</li>
+                <li>Expertise & professional bio</li>
+                <li>CV or profile download</li>
+                <li>WhatsApp, call & email</li>
+                <li>Professional & social links</li>
+                <li>QR code</li>
+                <li>Responsive design</li>
+                <li>1 year hosting</li>
+                <li>1 content update each month</li>
+                <li>Human-built profile</li>
+              </ul>
+
+              <a
+                class="checkout-button"
+                href={CHECKOUT_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Create My ProPresence Profile — $89
+              </a>
+
+              <div class="payment-note">
+                Secure payment • Annual service • No monthly subscription
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- AFTER PAYMENT -->
+
+      <section>
+        <div class="container">
+          <div class="section-heading">
+            <div class="label">After payment</div>
+
+            <h2>
+              Getting started takes only a few minutes.
+            </h2>
+          </div>
+
+          <div class="after-payment">
+            <div class="after-card">
+              <div class="after-number">1</div>
+
+              <h3>Upload</h3>
+
+              <p>
+                Send your CV, professional bio or existing documents.
+              </p>
+            </div>
+
+            <div class="after-card">
+              <div class="after-number">2</div>
+
+              <h3>Connect</h3>
+
+              <p>
+                Add your LinkedIn, website or other professional links.
+              </p>
+            </div>
+
+            <div class="after-card">
+              <div class="after-number">3</div>
+
+              <h3>Complete</h3>
+
+              <p>
+                Add anything missing through a short form or message us directly.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+
+      <section>
+        <div class="container">
+          <div class="section-heading">
+            <div class="label">Questions</div>
+
+            <h2>
+              Frequently asked questions.
+            </h2>
+          </div>
+
+          <div class="faq">
+            <details>
+              <summary>
+                Do I need a CV to use ProPresence?
+              </summary>
+
+              <p>
+                No. ProPresence is a professional profile, not just
+                an online CV. We can work from your LinkedIn profile,
+                website, professional bio or information you provide.
+              </p>
+            </details>
+
+            <details>
+              <summary>
+                Is this only for people looking for jobs?
+              </summary>
+
+              <p>
+                No. ProPresence can be used for attracting clients,
+                professional networking, consulting, building your
+                professional reputation or creating career opportunities.
+              </p>
+            </details>
+
+            <details>
+              <summary>
+                Can people contact me directly from my page?
+              </summary>
+
+              <p>
+                Yes. Your page can include WhatsApp, phone, email
+                and your professional or social links.
+              </p>
+            </details>
+
+            <details>
+              <summary>
+                Does the price include hosting?
+              </summary>
+
+              <p>
+                Yes. Your $89 annual service includes hosting
+                for one full year.
+              </p>
+            </details>
+
+            <details>
+              <summary>
+                Can I update my profile later?
+              </summary>
+
+              <p>
+                Yes. One content update per month is included
+                with your annual service.
+              </p>
+            </details>
+
+            <details>
+              <summary>
+                Does it work on mobile?
+              </summary>
+
+              <p>
+                Yes. Your profile is designed to work across
+                phones, tablets and desktop computers.
+              </p>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <!-- SUPPORT -->
+
+      <section>
+        <div class="container">
+          <div class="support-box">
+            <div class="label">Need to ask something first?</div>
+
+            <h2>
+              Talk to us before you buy.
+            </h2>
+
+            <p style="color: var(--muted); max-width: 600px; margin: 0 auto;">
+              If you are not sure whether ProPresence is right for you,
+              send us a message and we’ll help you decide.
+            </p>
+
+            <div class="support-actions">
+              <a
+                class="button button-primary"
+                href={WHATSAPP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Chat on WhatsApp
+              </a>
+
+              <a
+                class="button button-secondary"
+                href={MESSENGER_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Message Us
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container footer-grid">
+        <div>
+          © 2026 ProPresence
+        </div>
+
+        <div>
+          Professional presence. One link.
+        </div>
+      </div>
+    </footer>
+  </body>
 </html>
